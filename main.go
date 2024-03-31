@@ -2,16 +2,15 @@ package main
 
 import (
 	"fmt"
+	"os"
 
-	"github.com/CuTrung/go_template/confs"
-	"github.com/CuTrung/go_template/modules/book"
+	server "github.com/CuTrung/go_template/src"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	envs := confs.LoadEnv()
-	r := gin.Default()
-	r.GET("/books", book.GetBook)
-	url := fmt.Sprintf("%v:%v", envs["HOST"], envs["PORT"])
-	r.Run(url) // listen and serve on 0.0.0.0:8080
+	r := gin.New()
+	server.InitApp(r)
+	url := fmt.Sprintf("%v:%v", os.Getenv("HOST"), os.Getenv("PORT"))
+	r.Run(url)
 }

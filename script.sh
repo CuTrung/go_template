@@ -12,6 +12,8 @@ elif [ "$1" == "run" ]; then
 elif [ "$1" == "clean" ]; then
     go clean
     rm -f ${BUILD_PATH}
+elif [ "$1" == "test" ]; then
+    go test ./...
 fi
 exit 0
 
