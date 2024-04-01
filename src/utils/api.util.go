@@ -29,3 +29,13 @@ func ToGinObj[T any](data T) gin.H {
 
 	return result
 }
+
+func FormatJSON(status int, obj any) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		if IsDevelopment() {
+			c.IndentedJSON(status, obj)
+			return
+		}
+		c.JSON(status, obj)
+	}
+}
