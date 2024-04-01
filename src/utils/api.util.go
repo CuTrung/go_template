@@ -3,7 +3,6 @@ package utils
 import (
 	"reflect"
 
-	"github.com/CuTrung/go_template/src/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,13 +13,6 @@ func Transform[T any](obj *T) func(c *gin.Context) error {
 		}
 		return nil
 	}
-}
-
-func FormatResponse(res Response) any {
-	if res.date_time == "" {
-		res.date_time = utils.GetCurrentDate()
-	}
-	return res
 }
 
 func ToGinObj[T any](data T) gin.H {

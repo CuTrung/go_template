@@ -3,7 +3,7 @@ package book
 import (
 	"net/http"
 
-	utils "github.com/CuTrung/go_template/src/utils/api"
+	"github.com/CuTrung/go_template/src/utils"
 	"github.com/gin-gonic/gin"
 )
 
