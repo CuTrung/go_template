@@ -16,12 +16,15 @@ func ErrorHandlerMiddleware(c *gin.Context) {
 		errors = append(errors, err.Error())
 	}
 
-	if len(errors) <= 0 {
+	status_res := c.Writer.Status()
+	if len(errors) <= 0 && status_res > 400 {
 		status = http.StatusNotFound
 		errors = append(errors, fmt.Sprintf("Path %v not found", c.Request.URL.Path))
 	}
 
-	utils.FormatJSON(status, gin.H{
-		"errors": errors,
-	})(c)
+	if len(errors) > 0 {
+		utils.FormatJSON(status, gin.H{
+			"errors": errors,
+		})(c)
+	}
 }
