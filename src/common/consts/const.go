@@ -9,3 +9,7 @@ const (
 	DEVELOPMENT = "development"
 	PRODUCTION  = "production"
 )
+
+const (
+	HEADER_REQUEST_ID = "X-Request-Id"
+)

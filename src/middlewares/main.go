@@ -6,6 +6,7 @@ import (
 
 func ApplyMiddlewares(r *gin.Engine) {
 	r.Use(gin.Recovery())
+	r.Use(RateLimiter())
 	r.Use(LoggerMiddleware)
 	r.Use(ErrorHandlerMiddleware)
 }

@@ -1,17 +1,9 @@
 package book
 
-import (
-	"gorm.io/gorm"
-)
+import "github.com/CuTrung/go_template/src/common/types"
 
 type Book struct {
-	gorm.Model
-	Title string `json:"title" binding:"required"`
-	Label *string
-}
-
-type CreateBookDTO = Book
-
-func GetBookModel() *Book {
-	return &Book{}
+	types.BaseModel
+	Title string  `json:"title" binding:"required"`
+	Label *string `json:"label"`
 }

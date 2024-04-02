@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"reflect"
+	"time"
 
+	"github.com/CuTrung/go_template/src/common/types"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,27 +16,36 @@ func Transform[T any](obj *T) func(c *gin.Context) error {
 	}
 }
 
-func ToGinObj[T any](data T) gin.H {
-	result := make(gin.H)
-
-	val := reflect.ValueOf(data)
-	typ := reflect.TypeOf(data)
-
-	for i := 0; i < val.NumField(); i++ {
-		field := val.Field(i).Interface()
-		fieldName := typ.Field(i).Name
-		result[fieldName] = field
-	}
-
-	return result
-}
-
-func FormatJSON(status int, obj any) func(c *gin.Context) {
+func JSON[T any](status int, res types.ApiResponse[T]) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		if IsDevelopment() {
-			c.IndentedJSON(status, obj)
+			c.IndentedJSON(status, res)
 			return
 		}
-		c.JSON(status, obj)
+		c.JSON(status, res)
+	}
+}
+
+func FormatJSON[T any](status int, data T) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		res := types.ApiResponse[T]{
+			Data: data,
+			Date: time.Now(),
+			Path: c.Request.URL.Path,
+		}
+
+		JSON(status, res)(c)
+	}
+}
+
+func FormatErrorJSON(status int, errs []string) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		res := types.ApiResponse[any]{
+			Date:   time.Now(),
+			Path:   c.Request.URL.Path,
+			Errors: errs,
+		}
+
+		JSON(status, res)(c)
 	}
 }

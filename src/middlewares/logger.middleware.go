@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
 
+	"github.com/CuTrung/go_template/src/common/consts"
 	"github.com/CuTrung/go_template/src/utils"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -19,19 +21,21 @@ func createLogger(file_name string) *lumberjack.Logger {
 		Compress:   true, // Nén các file log cũ
 	}
 }
-
 func LoggerMiddleware(c *gin.Context) {
+	start := time.Now()
 	prefix_log := fmt.Sprintf("logs/%v", utils.GetCurrentDate())
 	info_path, error_path := fmt.Sprintf("%v.info.log", prefix_log), fmt.Sprintf("%v.error.log", prefix_log)
 	infoLogger, errorLogger := createLogger(info_path), createLogger(error_path)
 	gin.DefaultWriter = io.MultiWriter(os.Stdout, infoLogger, errorLogger)
-
 	c.Next()
 	status := c.Writer.Status()
+	duration := time.Since(start)
+	level_logger := infoLogger
+	request_id := c.Request.Header[consts.HEADER_REQUEST_ID][0]
 	if status >= 400 {
-		fmt.Fprintf(errorLogger, "[%d] %s %s\n", status, c.Request.Method, c.Request.URL.Path)
-	} else {
-		fmt.Fprintf(infoLogger, "[%d] %s %s\n", status, c.Request.Method, c.Request.URL.Path)
+		level_logger = errorLogger
 	}
-	fmt.Printf("[%d] %s %s\n", status, c.Request.Method, c.Request.URL.Path)
+	format_logger := fmt.Sprintf("[%s] %d %s %s `%v` (%s)\n", utils.GetCurrentDateHasHour(), status, c.Request.Method, c.Request.URL.Path, request_id, duration)
+	fmt.Fprint(level_logger, format_logger)
+	fmt.Println(format_logger)
 }

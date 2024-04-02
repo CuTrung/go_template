@@ -1,14 +1,18 @@
 package routers
 
 import (
+	"os"
+
 	"github.com/CuTrung/go_template/src/modules/book"
 	"github.com/gin-gonic/gin"
 )
 
 func InitRouters(r *gin.Engine) {
-	v1 := r.Group("/books")
+	rg := r.Group(os.Getenv("API_PREFIX"))
+
+	book_route := rg.Group("/books")
 	{
-		v1.GET("", book.GetBook)
-		v1.POST("", book.CreateBook)
+		book_route.GET("", book.GetBook)
+		book_route.POST("", book.CreateBook)
 	}
 }

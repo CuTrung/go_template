@@ -6,7 +6,7 @@ import (
 )
 
 func GetInstance() *gorm.DB {
-	db := confs.ConnectDB()
+	db := confs.GetDBInstance()
 	return db
 }
 

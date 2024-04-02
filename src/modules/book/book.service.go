@@ -1,11 +1,9 @@
 package book
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/CuTrung/go_template/src/db"
-	"github.com/CuTrung/go_template/src/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,11 +13,13 @@ func GetBookService() (int, any) {
 	}
 }
 
-func CreateBookService(create_book_dto CreateBookDTO) (int, any) {
+func CreateBookService(book Book) (Book, error) {
 	var db = db.GetInstance()
-	result := db.Create(&create_book_dto) // pass pointer of data to Create
+	result := db.Create(&book)
 
-	fmt.Print(">>> error", result.Error, create_book_dto)
+	if result.Error != nil {
+		return Book{}, result.Error
+	}
 
-	return http.StatusCreated, utils.ToGinObj(create_book_dto)
+	return book, nil
 }

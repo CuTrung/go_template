@@ -23,8 +23,6 @@ func ErrorHandlerMiddleware(c *gin.Context) {
 	}
 
 	if len(errors) > 0 {
-		utils.FormatJSON(status, gin.H{
-			"errors": errors,
-		})(c)
+		utils.FormatErrorJSON(status, errors)(c)
 	}
 }
