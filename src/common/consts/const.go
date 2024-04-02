@@ -13,3 +13,7 @@ const (
 const (
 	HEADER_REQUEST_ID = "X-Request-Id"
 )
+
+const (
+	REDIS_STORE = "redis_store"
+)

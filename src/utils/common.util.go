@@ -7,9 +7,9 @@ import (
 )
 
 func IsDevelopment() bool {
-	return os.Getenv("NODE_ENV") == consts.DEVELOPMENT
+	return os.Getenv(consts.NODE_ENV) == consts.DEVELOPMENT
 }
 
 func IsProduction() bool {
-	return os.Getenv("NODE_ENV") == consts.PRODUCTION
+	return os.Getenv(consts.NODE_ENV) == consts.PRODUCTION
 }

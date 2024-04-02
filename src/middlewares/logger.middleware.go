@@ -23,7 +23,7 @@ func createLogger(file_name string) *lumberjack.Logger {
 }
 func LoggerMiddleware(c *gin.Context) {
 	start := time.Now()
-	prefix_log := fmt.Sprintf("logs/%v", utils.GetCurrentDate())
+	prefix_log := fmt.Sprintf("logs/%v_%v", utils.GetCurrentDate(), os.Getenv(consts.NODE_ENV))
 	info_path, error_path := fmt.Sprintf("%v.info.log", prefix_log), fmt.Sprintf("%v.error.log", prefix_log)
 	infoLogger, errorLogger := createLogger(info_path), createLogger(error_path)
 	gin.DefaultWriter = io.MultiWriter(os.Stdout, infoLogger, errorLogger)
@@ -35,7 +35,7 @@ func LoggerMiddleware(c *gin.Context) {
 	if status >= 400 {
 		level_logger = errorLogger
 	}
-	format_logger := fmt.Sprintf("[%s] %d %s %s `%v` (%s)\n", utils.GetCurrentDateHasHour(), status, c.Request.Method, c.Request.URL.Path, request_id, duration)
+	format_logger := fmt.Sprintf("[%s] [%s] %d %s %s `%v` (%s)\n", os.Getenv(consts.APP_NAME), utils.GetCurrentDateHasHour(), status, c.Request.Method, c.Request.URL.Path, request_id, duration)
 	fmt.Fprint(level_logger, format_logger)
 	fmt.Println(format_logger)
 }

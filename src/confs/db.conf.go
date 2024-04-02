@@ -6,12 +6,13 @@ import (
 	"os"
 	"time"
 
+	"github.com/CuTrung/go_template/src/common/consts"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func ConnectDB() *gorm.DB {
-	dns := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST"), os.Getenv("MYSQL_PORT"), os.Getenv("MYSQL_DB_NAME"))
+	dns := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", os.Getenv(consts.MYSQL_USER), os.Getenv(consts.MYSQL_PASSWORD), os.Getenv(consts.HOST), os.Getenv(consts.MYSQL_PORT), os.Getenv(consts.MYSQL_DB_NAME))
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN:                       dns,   // data source name
 		DefaultStringSize:         256,   // default size for string fields

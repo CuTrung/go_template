@@ -6,6 +6,7 @@ import (
 	"os"
 
 	server "github.com/CuTrung/go_template/src"
+	"github.com/CuTrung/go_template/src/common/consts"
 	"github.com/joho/godotenv"
 )
 
@@ -14,6 +15,6 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	r := server.InitApp()
-	url := fmt.Sprintf("%v:%v", os.Getenv("HOST"), os.Getenv("PORT"))
+	url := fmt.Sprintf("%v:%v", os.Getenv(consts.HOST), os.Getenv(consts.PORT))
 	r.Run(url)
 }
