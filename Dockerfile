@@ -15,7 +15,9 @@ FROM alpine:3.14
 
 ENV APP_NAME go_template
 
-# COPY .env .
+WORKDIR $APP_NAME
+
+COPY .env .
 COPY --from=build_stage /$APP_NAME/bin/ .
 
 EXPOSE 3000
