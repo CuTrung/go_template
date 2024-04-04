@@ -15,6 +15,6 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	r := server.InitApp()
-	url := fmt.Sprintf("%v:%v", os.Getenv(consts.HOST), os.Getenv(consts.PORT))
+	url := fmt.Sprintf(":%v", os.Getenv(consts.PORT))
 	r.Run(url)
 }

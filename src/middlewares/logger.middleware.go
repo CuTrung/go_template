@@ -31,7 +31,7 @@ func LoggerMiddleware(c *gin.Context) {
 	status := c.Writer.Status()
 	duration := time.Since(start)
 	level_logger := infoLogger
-	request_id := c.Request.Header[consts.HEADER_REQUEST_ID][0]
+	request_id := c.Request.Header[consts.HEADER_REQUEST_ID]
 	if status >= 400 {
 		level_logger = errorLogger
 	}

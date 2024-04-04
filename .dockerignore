@@ -1,0 +1,6 @@
+logs
+tmp
+.gitignore
+.air.toml
+Dockerfile
+bin

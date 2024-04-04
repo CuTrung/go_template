@@ -9,12 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func migrateDB() {
+	db.Migrate(&book.Book{})
+}
+
 func InitApp() *gin.Engine {
 	r := gin.New()
 	r.Static("/assets", "./assets")
 	confs.SetConfigs(r)
 	middlewares.ApplyMiddlewares(r)
 	routers.InitRouters(r)
-	db.Migrate(&book.Book{})
+	migrateDB()
 	return r
 }
